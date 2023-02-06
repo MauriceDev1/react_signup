@@ -1,24 +1,73 @@
 import React, { useState } from 'react'
+import { toast, ToastContainer } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 
 interface FormProps {
     FieldTypes: any[];
 }
 
 export default function Form({FieldTypes}: FormProps) {
-  const [loading, setLoading ] = useState();
+  const [loading, setLoading ] = useState(false);
+  const [formValues, setFormValues]  = useState({
+    first_name: "",
+    last_name: "",
+    contact_number: "",
+    email: "",
+    gender: "",
+  });
 
+  const notifyError = (e : string) => {
+    toast.error(e, {
+      position: toast.POSITION.TOP_CENTER
+    });
+  };
+
+  const notifySuccess = (e : string) => {
+    toast.success(e, {
+      position: toast.POSITION.TOP_CENTER
+    });
+  };
 
   const handelChange = (e: any) => {
-
+    setFormValues((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   }
 
   const handelSubmit = () => {
-
+    const { first_name, last_name, email, contact_number, gender } = formValues;
+    if (
+      first_name === "" ||
+      last_name === "" ||
+      email === "" ||
+      contact_number === "" ||
+      gender === ""
+    ) {
+      if (first_name === "") {
+        notifyError("Name field is required!");
+      }
+      if (last_name === "") {
+        notifyError("Surname field is required!");
+      }
+      if (email === "") {
+        notifyError("Email field is required!");
+      }
+      if (contact_number === "") {
+        notifyError("Contact number field is required!");
+      }
+      if (gender === "") {
+        notifyError("Gender field is required!");
+      }
+      return;
+    }
+    setLoading(true);
+    setTimeout(() => {
+        notifySuccess("You have successfully signed up!");
+      setLoading(false);
+    }, 4000);
   }
 
   return (
     <main className="w-full px-10">
-        {/* <ToastContainer /> */}
+        <ToastContainer />
         <section>
           <p className="text-sm px-4 text-center">Welocme to Maurice App to become a member please could you kindly complete our signup form</p>
         </section>
