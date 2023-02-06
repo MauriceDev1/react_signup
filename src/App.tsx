@@ -1,12 +1,15 @@
 import React from 'react';
 import Access from './layout/Access';
+import Signup from './Signup';
 
 function App() {
 
   const route = "login"
 
   if(route === 'login'){
-    return <Access>Test</Access>
+    return <Access>
+      <Signup />
+    </Access>
   }
 
   return (
